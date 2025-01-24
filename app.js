@@ -36,14 +36,20 @@ boxes.forEach((box) => {
     }
     box.disabled = true;
     count++;
-    checkWinner(); // Check for a winner first
 
-    if (count === 9 && msgContainer.classList.contains("hide")) {
-      // Only declare a draw if no winner was found
-      drawCon();
+    let isWinner = checkWinner();
+
+    if (count === 9 && !isWinner) {
+      gameDraw();
     }
   });
 });
+
+const gameDraw = () => {
+  msg.innerText = `Game was a Draw.`;
+  msgContainer.classList.remove("hide");
+  disableBoxes();
+};
 const disableBoxes = () => {
   for (let box of boxes) {
     box.disabled = true;
@@ -63,11 +69,7 @@ const showWinner = (winner) => {
   disableBoxes();
 };
 
-const drawCon = () => {
-  msg.innerText = `Draw`;
-  msgContainer.classList.remove("hide");
-  disableBoxes();
-};
+
 const checkWinner = () => {
   for (let pattern of winpatterns) {
     let pos1Val = boxes[pattern[0]].innerText;
